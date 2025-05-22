@@ -15,4 +15,4 @@ file1 = open("MyFile1.txt","a")
     # and "MyFile2.txt" in D:\Text in file2 (w+ means you can read and write in it)
 file2 = open(r"D:\Text\MyFile2.txt","w+")
 
-File_object.read([n])
+#File_object.read([n])
