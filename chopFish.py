@@ -33,6 +33,9 @@ def oneTurn():
                 print("hand lost")
     else:
         print("try again")
+    oneHands=[oneLeftHand,oneRightHand]
+    twoHands=[twoLeftHand,twoRightHand]
+    hands=f'Player One: {str(oneHands)} \nPlayer Two: {str(twoHands)}'
 oneTurn()
 if sum(oneHands)>=10:
     print("game over")
