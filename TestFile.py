@@ -19,7 +19,6 @@
 
 # for i in range(0,13,3):
 #     print(i)
-
 L=[]
 print(L)
 L.append(6)
@@ -31,4 +30,8 @@ L.extend(M)
 print(L)
 for x in L:
     print(x)
+print(L[0])
 print(str(L)[1:-1])
+for i in range(len(L)):
+    print(L[i])
+print(L)
