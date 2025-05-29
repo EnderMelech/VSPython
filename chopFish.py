@@ -18,6 +18,34 @@ def oneTurn():
     global hands
     move=input("Player One's move: hit left (hl), hit right (hr)\n")
     if move=="hr":
+        if twoRightHand>=5:
+            print("nice try buddy, you already got rid of that")
+        else:
+            twoRightHand=twoRightHand+1
+            if twoRightHand==5:
+                print("hand lost")
+    elif move=="hl":
+        if twoLeftHand>=5:
+            print("nice try buddy, you already got rid of that")
+        else:
+            twoLeftHand=twoLeftHand+1
+            if twoLeftHand==5:
+                print("hand lost")
+    else:
+        print("try again")
+    oneHands=[oneLeftHand,oneRightHand]
+    twoHands=[twoLeftHand,twoRightHand]
+    hands=f'Player One: {str(oneHands)} \nPlayer Two: {str(twoHands)}'
+def twoTurn():
+    global oneLeftHand
+    global twoLeftHand
+    global oneRightHand
+    global twoRightHand
+    global oneHands
+    global twoHands
+    global hands
+    move=input("Player Two's move: hit left (hl), hit right (hr)\n")
+    if move=="hr":
         if oneRightHand>=5:
             print("nice try buddy, you already got rid of that")
         else:
@@ -36,9 +64,12 @@ def oneTurn():
     oneHands=[oneLeftHand,oneRightHand]
     twoHands=[twoLeftHand,twoRightHand]
     hands=f'Player One: {str(oneHands)} \nPlayer Two: {str(twoHands)}'
-oneTurn()
+while sum(oneHands)<10 and sum(twoHands)<10:
+    oneTurn()
+    print(hands)
+    twoTurn()
+    print(hands)
 if sum(oneHands)>=10:
     print("game over")
 if sum(twoHands)>=10:
     print("game over")
-print(hands)
