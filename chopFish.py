@@ -21,14 +21,24 @@ def oneTurn():
         if twoRightHand>=5:
             print("nice try buddy, you already got rid of that")
         else:
-            twoRightHand=twoRightHand+1
+            move=input(f"Which hand will you use? Your left hand (lh): {oneLeftHand} or your right hand (rh): {oneRightHand}?")
+            if move=="lh":
+                twoRightHand=twoRightHand+oneLeftHand
+            elif move=="rh":
+                twoRightHand=twoRightHand+oneRightHand
+            else:
+                print("try again")
             if twoRightHand==5:
                 print("hand lost")
     elif move=="hl":
         if twoLeftHand>=5:
             print("nice try buddy, you already got rid of that")
         else:
-            twoLeftHand=twoLeftHand+1
+            move=input(f"Which hand will you use? Your left hand (lh): {oneLeftHand} or your right hand (rh): {oneRightHand}?")
+            if move=="lh":
+                twoLeftHand=twoLeftHand+oneLeftHand
+            elif move=="rh":
+                twoLeftHand=twoLeftHand+oneRightHand
             if twoLeftHand==5:
                 print("hand lost")
     else:
@@ -49,14 +59,24 @@ def twoTurn():
         if oneRightHand>=5:
             print("nice try buddy, you already got rid of that")
         else:
-            oneRightHand=oneRightHand+1
+            move=input(f"Which hand will you use? Your left hand (lh): {twoLeftHand} or your right hand (rh): {twoRightHand}?")
+            if move=="lh":
+                oneRightHand=oneRightHand+twoLeftHand
+            elif move=="rh":
+                oneRightHand=oneRightHand+twoRightHand
+            else:
+                print("try again")
             if oneRightHand==5:
                 print("hand lost")
     elif move=="hl":
         if oneLeftHand>=5:
             print("nice try buddy, you already got rid of that")
         else:
-            oneLeftHand=oneLeftHand+1
+            move=input(f"Which hand will you use? Your left hand (lh): {twoLeftHand} or your right hand (rh): {twoRightHand}?")
+            if move=="lh":
+                oneLeftHand=oneLeftHand+twoLeftHand
+            elif move=="rh":
+                oneLeftHand=oneLeftHand+twoRightHand
             if oneLeftHand==5:
                 print("hand lost")
     else:
