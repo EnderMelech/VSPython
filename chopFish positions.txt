@@ -1,0 +1,25 @@
+chopFish positions
+Example:
+sum(position) = x
+x is the line at the start of the section of possible positions with the sum of the current position
+
+line x:
+[a, b, c, d] y
+a is left hand of p1, b is right hand of p1, c is left hand of bot, d is right hand of bot, y corresponds to the best move for the bot to make
+
+Start of actual positions
+
+Sum 4 line _
+Sum 5 line _
+Sum 6 line _
+Sum 7 line _
+Sum 8 line _
+Sum 9 line _
+Sum 10 line _
+Sum 11 line _
+Sum 12 line _
+Sum 13 line _
+Sum 14 line _
+Sum 15 line _
+Sum 16 line _
+Sum 17 line _
