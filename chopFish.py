@@ -13,7 +13,7 @@ def botTurn(position):
     # Read a few characters further to get the line that is the beginning of the section of possible positions with that sum
     # Find the current position in that section
     # Read a few characters further to get the number that represents best move for the bot to make
-    sum(position)
+    #sum(position)
 
 # function for player one's turn
 def oneTurn():
@@ -127,9 +127,10 @@ def twoTurn():
 
 # function to check if a player won
 def winConditionCheck():
-    if botOpp == True and sum(oneHands) >= 10 or sum(botHands) >= 10:
-        print("game over, bot won")
-        quit()
+    if botOpp == True:
+        if sum(oneHands) >= 10:
+            print("game over, bot won")
+            quit()
     if sum(oneHands) >= 10:
         print("game over, player two won")
         quit()
@@ -144,10 +145,11 @@ def winConditionCheck():
 botOrNot = input("Would you like to play against a bot (bot) or another player (player)?\n").lower()
 if botOrNot == "bot":
     botOpp = True
-    twoHands = None
+    twoHands = [1, 1]
+    #positionsFile = open("chopPositions.txt", "r")
 elif botOrNot == "player":
     botOpp = False
-    botHands = None
+    botHands = [1, 1]
 else:
     print('invalid input, try again')
     quit()
