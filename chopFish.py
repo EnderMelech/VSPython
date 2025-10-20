@@ -14,6 +14,7 @@ def botTurn(position):
     # Find the current position in that section
     # Read a few characters further to get the number that represents best move for the bot to make
     #sum(position)
+    print("Bot is thinking...")
 
 # function for player one's turn
 def oneTurn():
