@@ -4,17 +4,11 @@
 oneHands = [1, 1]  # [left, right]
 twoHands = [1, 1]
 botHands = [1, 1]
-position = str(oneHands+twoHands+botHands) # position is the current game position in one variable
 
 # bot instructions
-def botTurn(position):
-    # Open positions file
-    # Find line that contains the sum of the position
-    # Read a few characters further to get the line that is the beginning of the section of possible positions with that sum
-    # Find the current position in that section
-    # Read a few characters further to get the number that represents best move for the bot to make
-    #sum(position)
-    print("Bot is thinking...")
+def botTurn():
+    print("Work in progress")
+    quit()
 
 # function for player one's turn
 def oneTurn():
