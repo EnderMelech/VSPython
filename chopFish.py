@@ -1,6 +1,7 @@
 # chopsticks stockfish
 
 import random
+import json
 
 # representation of both players' hands
 oneHands = [1, 1]  # [left, right]
@@ -9,231 +10,84 @@ botHands = [1, 1]
 botHands1 = [1, 1]
 botHands2 = [1, 1]
 firstTurn = 'Hand One'
-turn = 1
-botGame=[f'Game Start:', f'Hand 1', botHands1, f'Hand 2', botHands2, f'{firstTurn} goes first']
-print(*botGame)
+turn = 0.5
+botGame=[f'Game Start:', f'Hand 1', f'{botHands1}', f'Hand 2', f'{botHands2}', f'{firstTurn} goes first']
+
 # bot instructions
-def botOneTurn():
+def botSimTurn(attacker, defender):
     botMove = random.choice(['1', '2', '3', '4'])
-    if botMove == '1':
-        if botHands1[0] >= 5:
-            pass
-        elif botHands2[0] >= 5:
-            pass
-        else:
-            botHands2[0] += botHands1[0]
-            if botHands2[0] >= 5:
-                botHands2[0] = 5
-    elif botMove == '2':
-        if botHands1[0] >= 5:
-            pass
-        elif botHands2[1] >= 5:
-            pass
-        else:
-            botHands2[1] += botHands1[0]
-            if botHands2[1] >= 5:
-                botHands2[1] = 5
-    elif botMove == '3':
-        if botHands1[1] >= 5:
-            pass
-        elif botHands2[0] >= 5:
-            pass
-        else:
-            botHands2[0] += botHands1[1]
-            if botHands2[0] >= 5:
-                botHands2[0] = 5
-    elif botMove == '4':
-        if botHands1[1] >= 5:
-            pass
-        elif botHands2[1] >= 5:
-            pass
-        else:
-            botHands2[1] += botHands1[1]
-            if botHands2[1] >= 5:
-                botHands2[1] = 5
+    attackerHand = 0 if botMove in ['1', '2'] else 1
+    defenderHand = 0 if botMove in ['1', '3'] else 1
+    if attacker[attackerHand] < 5 and defender[defenderHand] < 5:
+        defender[defenderHand] += attacker[attackerHand]
+        if defender[defenderHand] >= 5:
+            defender[defenderHand] = 5
+    else:
+        botSimTurn(attacker, defender)
 
-def botTwoTurn():
-    botMove = random.choice(['1', '2', '3', '4'])
-    if botMove == '1':
-        if botHands2[0] >= 5:
-            pass
-        elif botHands1[0] >= 5:
-            pass
-        else:
-            botHands1[0] += botHands2[0]
-            if botHands1[0] >= 5:
-                botHands1[0] = 5
-    elif botMove == '2':
-        if botHands2[0] >= 5:
-            pass
-        elif botHands1[1] >= 5:
-            pass
-        else:
-            botHands1[1] += botHands2[0]
-            if botHands1[1] >= 5:
-                botHands1[1] = 5
-    elif botMove == '3':
-        if botHands2[1] >= 5:
-            pass
-        elif botHands1[0] >= 5:
-            pass
-        else:
-            botHands1[0] += botHands2[1]
-            if botHands1[0] >= 5:
-                botHands1[0] = 5
-    elif botMove == '4':
-        if botHands2[1] >= 5:
-            pass
-        elif botHands1[1] >= 5:
-            pass
-        else:
-            botHands1[1] += botHands2[1]
-            if botHands1[1] >= 5:
-                botHands1[1] = 5
-
-def botSim():
-    firstTurn = 'Hand One'
+# bot sim main function
+def botSim(firstTurn='Hand One'):
+    global turn
+    current_player = firstTurn
     while sum(botHands1) < 10 and sum(botHands2) < 10:
-        if firstTurn == 'Hand One':
-            botOneTurn()
-            botTwoTurn()
-        elif firstTurn == 'Hand Two':
-            botTwoTurn()
-            botOneTurn()
-        turn += 1
-        botGame.append(f'Turn {turn}:', f'Hand 1', botHands1, f'Hand 2', botHands2)
+        if current_player == 'Hand One':
+            botSimTurn(botHands1, botHands2)
+            current_player = 'Hand Two'
+        else:
+            botSimTurn(botHands2, botHands1)
+            current_player = 'Hand One'
+        turn += 0.5
+        botGame.extend([f'Turn {turn}: Hand 1 {botHands1}, Hand 2 {botHands2}'])
+    print(*botGame)
 
 # function for player one's turn
-def oneTurn():
-    move = input("Player One's move: hit left (1), hit right (2)\n")
-    if move == "2":
-        if twoHands[1] >= 5:
-            print("nice try buddy, you already got rid of that")
-            return oneTurn()
-        else:
-            hand = input(f"Which hand will you use? Your left hand (1): {oneHands[0]} or your right hand (2): {oneHands[1]}?\n")
-            if hand == "1":
-                if oneHands[0] >= 5:
-                    print("you already lost that hand, go again")
-                    return oneTurn()
-                else:
-                    twoHands[1] += oneHands[0]
-            elif hand == "2":
-                if oneHands[1] >= 5:
-                    print("you already lost that hand, go again")
-                    return oneTurn()
-                else:
-                    twoHands[1] += oneHands[1]
-            else:
-                print("try again")
-                return oneTurn()
-            if twoHands[1] >= 5:
-                print("hand lost")
-                twoHands[1] = 5
-    elif move == "1":
-        if twoHands[0] >= 5:
-            print("nice try buddy, you already got rid of that")
-            return oneTurn()
-        else:
-            hand = input(f"Which hand will you use? Your left hand (1): {oneHands[0]} or your right hand (2): {oneHands[1]}?\n")
-            if hand == "1":
-                if oneHands[0] >= 5:
-                    print("you already lost that hand, go again")
-                    return oneTurn()
-                else:
-                    twoHands[0] += oneHands[0]
-            elif hand == "2":
-                if oneHands[1] >= 5:
-                    print("you already lost that hand, go again")
-                    return oneTurn()
-                else:
-                    twoHands[0] += oneHands[1]
-            else:
-                print("try again")
-                return oneTurn()
-            if twoHands[0] >= 5:
-                print("hand lost")
-                twoHands[0] = 5
-    else:
-        print("try again")
-        return oneTurn()
-
-# function for player two's turn
-def twoTurn():
-    move = input("Player Two's move: hit left (1), hit right (2)\n")
-    if move == "2":
-        if oneHands[1] >= 5:
-            print("nice try buddy, you already got rid of that")
-            return twoTurn()
-        else:
-            hand = input(f"Which hand will you use? Your left hand (1): {twoHands[0]} or your right hand (2): {twoHands[1]}?\n")
-            if hand == "1":
-                if twoHands[0] >= 5:
-                    print("you already lost that hand, go again")
-                    return twoTurn()
-                else:
-                    oneHands[1] += twoHands[0]
-            elif hand == "2":
-                if twoHands[1] >= 5:
-                    print("you already lost that hand, go again")
-                    return twoTurn()
-                else:
-                    oneHands[1] += twoHands[1]
-            else:
-                print("try again")
-                return twoTurn()
-            if oneHands[1] >= 5:
-                print("hand lost")
-                oneHands[1] = 5
-    elif move == "1":
-        if oneHands[0] >= 5:
-            print("nice try buddy, you already got rid of that")
-            return twoTurn()
-        else:
-            hand = input(f"Which hand will you use? Your left hand (1): {twoHands[0]} or your right hand (2): {twoHands[1]}?\n")
-            if hand == "1":
-                if twoHands[0] >= 5:
-                    print("you already lost that hand, go again")
-                    return twoTurn()
-                else:
-                    oneHands[0] += twoHands[0]
-            elif hand == "2":
-                if twoHands[1] >= 5:
-                    print("you already lost that hand, go again")
-                    return twoTurn()
-                else:
-                    oneHands[0] += twoHands[1]
-            else:
-                print("try again")
-                return twoTurn()
-            if oneHands[0] >= 5:
-                print("hand lost")
-                oneHands[0] = 5
-    else:
-        print("try again")
-        return twoTurn()
+def playerTurn(attacker, defender, playerName):
+    move = input(f"{playerName}'s move: hit left (1), hit right (2)\n")
+    if move not in ['1', '2']:
+        print('try again')
+        return playerTurn(attacker, defender, playerName)
+    targetHand = 0 if move == '1' else 1
+    if defender[targetHand] >= 5:
+        print('nice try buddy, you already got rid of that')
+        return playerTurn(attacker, defender, playerName)
+    hand = input(f'Which hand will you use? Your left hand (1): {attacker[0]} or your right hand (2): {attacker[1]}?\n')
+    if hand not in ['1', '2']:
+        print('try again')
+        return playerTurn(attacker, defender, playerName)
+    attackingHand = 0 if hand == '1' else 1
+    if attacker[attackingHand] >= 5:
+        print('you already lost that hand, go again')
+        return playerTurn(attacker, defender, playerName)
+    defender[targetHand] += attacker[attackingHand]
+    if defender[targetHand] >= 5:
+        print('hand lost')
+        defender[targetHand] = 5
 
 # function to check if a player won
 def winConditionCheck():
     if botOpp == True:
         if sum(oneHands) >= 10:
-            print("game over, bot won")
+            print('game over, bot won')
             quit()
     if sum(oneHands) >= 10:
-        print("game over, player two won")
+        print('game over, player two won')
         quit()
     if sum(twoHands) >= 10:
-        print("game over, player one won")
+        print('game over, player one won')
         quit()
     if sum(botHands) >= 10:
-        print("game over, player one won")
+        print('game over, player one won')
         quit()
 
 # main game loop
-botOrNot = input("Would you like to play against a bot (bot) or another player (player)?\n").lower()
-if botOrNot == "bot":
+while True:
+    botOrNot = input('Would you like to play against a bot (bot) or another player (player)?\n').lower()
+    if botOrNot in ['bot', 'player']:
+        break
+    print('invalid input, try again')
+if botOrNot == 'bot':
     botOpp = True
-    #positionsFile = open("chopPositions.txt", "r")
+    #positionsFile = open('chopPositions.txt', 'r')
     botSim()
     # while sum(botHands1) < 10 and sum(botHands2) < 10:
     #     print(f'Player One: {botHands1} \nBot: {botHands2}')
@@ -243,15 +97,12 @@ if botOrNot == "bot":
     #     position = str(botHands1 + botHands2)
     #     botTurn()
     #     winConditionCheck()
-elif botOrNot == "player":
+elif botOrNot == 'player':
     botOpp = False
     while sum(oneHands) < 10 and sum(twoHands) < 10:
         print(f'Player One: {oneHands} \nPlayer Two: {twoHands}')
-        oneTurn()
+        playerTurn(oneHands, twoHands, 'Player One')
         winConditionCheck()
         print(f'Player One: {oneHands} \nPlayer Two: {twoHands}')
-        twoTurn()
+        playerTurn(twoHands, oneHands, 'Player Two')
         winConditionCheck()
-else:
-    print('invalid input, try again')
-    quit()
